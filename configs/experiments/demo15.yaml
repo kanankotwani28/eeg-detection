@@ -1,0 +1,7 @@
+# 15-minute demo overlay (user deadline): LR 1 seed, 20 FL rounds, 16 LiRA shadows; EEGNet fold 0 only.
+overrides:
+  models:
+    train: {seeds: [0]}
+    eegnet: {seeds: [0], max_epochs: 8, patience: 3, max_epochs_per_person: 12}
+  fl: {rounds: 20, engine: inprocess}
+  audit: {n_shadows_logreg: 16}
