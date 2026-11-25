@@ -1,0 +1,11 @@
+# Compute-budget overlay for a 4-CPU machine without GPU (`--overlay budget`). Logistic regression runs at the
+# full specification; EEGNet uses 1 seed, shorter training and fewer FL rounds / LiRA shadow models.
+# Re-run without the overlay on a larger machine for the full specification. Results are tagged overlay=budget.
+overrides:
+  models:
+    eegnet: {seeds: [0], max_epochs: 40, patience: 8}
+  fl: {rounds: 30, engine: inprocess}
+  audit:
+    n_shadows_logreg: 32
+    n_shadows_eegnet: 8
+    eegnet_target_epsilons: [8, inf]

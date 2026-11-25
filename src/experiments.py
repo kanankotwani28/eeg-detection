@@ -148,10 +148,16 @@ def expand_variants(cfg: dict) -> list[tuple[str, dict]]:
     return out
 
 
+def load_overlay(name: str | None) -> dict:
+    """Named override sets in configs/experiments/<name>.yaml (key `overrides`), e.g. smoke, budget."""
+    return load_yaml(CONFIGS / "experiments" / f"{name}.yaml").get("overrides", {}) if name else {}
+
+
 def run_experiment(exp_id: str, smoke: bool = False, overrides: dict | None = None, folds=None, seeds=None,
-                   log_mlflow: bool = True) -> list[dict]:
-    smoke_over = load_yaml(CONFIGS / "experiments" / "smoke.yaml").get("overrides", {}) if smoke else {}
-    cfg = load_experiment(exp_id, deep_merge(smoke_over, overrides or {}))
+                   log_mlflow: bool = True, overlay: str | None = None) -> list[dict]:
+    smoke_over = load_overlay("smoke") if smoke else {}
+    cfg = load_experiment(exp_id, deep_merge(deep_merge(smoke_over, load_overlay(overlay)), overrides or {}))
+    cfg["overlay"] = overlay or ("smoke" if smoke else None)
     if cfg.get("regime") in ("external", "probe", "mumtaz_cv"):
         from src.eval.external import run_external_experiment
 
@@ -179,9 +185,10 @@ def run_experiment(exp_id: str, smoke: bool = False, overrides: dict | None = No
         seeds_ = seeds or vcfg["models"]["train"]["seeds"]
         eps_list = _eps_list(vcfg["dp"]["target_epsilons"]) if vcfg.get("dp", {}).get("enabled") else [None]
         for model_name in vcfg["run_models"]:
+            model_seeds = seeds or vcfg["models"][model_name].get("seeds") or seeds_  # per-model seed budget
             for eps in eps_list:
                 for fold in folds_:
-                    for seed in seeds_:
+                    for seed in model_seeds:
                         t0 = time.time()
                         if vcfg.get("split_mode") == "segment":
                             r = run_segment_split(td, vcfg, fold, seed, device)
@@ -209,7 +216,8 @@ def run_experiment(exp_id: str, smoke: bool = False, overrides: dict | None = No
                                 "dataset": td.dataset, "cond": td.cond, "synthetic": _is_synthetic(),
                                 "split_mode": vcfg.get("split_mode", "subject"),
                                 "partition": vcfg["fl"]["partition"], "n_clients": vcfg["fl"]["n_clients"],
-                                "strategy": vcfg["fl"]["strategy"], "description": vcfg.get("description", "")}
+                                "strategy": vcfg["fl"]["strategy"], "description": vcfg.get("description", ""),
+                                "overlay": vcfg.get("overlay") or "full"}
                         name = f"{exp_id}/{variant}/{model_name}/eps{eps_tag}/f{fold}/s{seed}"
                         log.info("%s  BA=%.3f AUC=%.3f (%.0fs)", name, met.get("balanced_accuracy", np.nan),
                                  met.get("auc", np.nan), met["seconds"])
@@ -278,6 +286,7 @@ def main(argv=None):
     ap = argparse.ArgumentParser()
     ap.add_argument("exp", nargs="+", help="experiment IDs, or 'all' / 'essential'")
     ap.add_argument("--smoke", action="store_true")
+    ap.add_argument("--overlay", help="named override set in configs/experiments/<name>.yaml, e.g. budget")
     ap.add_argument("--folds", type=lambda s: [int(x) for x in s.split(",")])
     ap.add_argument("--seeds", type=lambda s: [int(x) for x in s.split(",")])
     ap.add_argument("--no-mlflow", action="store_true")
@@ -286,7 +295,7 @@ def main(argv=None):
     if a.exp == ["all"]:
         ids = ESSENTIAL_ORDER + OPTIONAL
     for e in ids:
-        res = run_experiment(e, a.smoke, folds=a.folds, seeds=a.seeds, log_mlflow=not a.no_mlflow)
+        res = run_experiment(e, a.smoke, folds=a.folds, seeds=a.seeds, log_mlflow=not a.no_mlflow, overlay=a.overlay)
         if e == "E01":
             chk = check_e01(res)
             print(json.dumps({"E01_check": chk}, indent=1))

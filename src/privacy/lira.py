@@ -166,7 +166,8 @@ def run_audit_experiment(exp_id: str, cfg: dict, smoke: bool = False) -> list[di
     for model_name in cfg["run_models"]:
         n_models = cfg["audit"]["n_shadows_logreg" if model_name == "logreg" else "n_shadows_eegnet"]
         for regime in cfg.get("audit_regimes", ["central", "federated"]):
-            eps_list = _eps_list(cfg["dp"]["target_epsilons"]) if regime == "federated" else [None]
+            eps_cfg = cfg["audit"].get(f"{model_name}_target_epsilons") or cfg["dp"]["target_epsilons"]
+            eps_list = _eps_list(eps_cfg) if regime == "federated" else [None]
             for eps in eps_list:
                 summ, roc, raw = run_audit(model_name, regime, eps, td, cfg, device, n_models)
                 name = f"{exp_id}/{model_name}/{regime}/eps{summ['eps']}"

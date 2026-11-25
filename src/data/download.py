@@ -48,9 +48,16 @@ def figshare_download(article_id: int, dest: Path, confirm_large: bool = False) 
     import requests
 
     dest.mkdir(parents=True, exist_ok=True)
-    r = requests.get(f"https://api.figshare.com/v2/articles/{article_id}/files", timeout=60)
-    r.raise_for_status()
-    files = r.json()
+    files, page = [], 1
+    while True:  # the files endpoint is paginated (10 per page by default)
+        r = requests.get(f"https://api.figshare.com/v2/articles/{article_id}/files",
+                         params={"page": page, "page_size": 100}, timeout=60)
+        r.raise_for_status()
+        batch = r.json()
+        files += batch
+        if len(batch) < 100:
+            break
+        page += 1
     total_gb = sum(f["size"] for f in files) / 1e9
     log.info("figshare %s: %d files, %.2f GB; free %.1f GB", article_id, len(files), total_gb, free_gb(dest))
     if total_gb > CONFIRM_GB and not confirm_large:
