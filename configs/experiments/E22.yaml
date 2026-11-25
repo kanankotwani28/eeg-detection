@@ -1,0 +1,5 @@
+description: Age-only confound check - logistic regression on age alone (T1). How much of E02 could age explain?
+task: T1
+regime: central
+run_models: [logreg]
+features: age_only

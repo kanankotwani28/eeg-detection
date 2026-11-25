@@ -139,7 +139,9 @@ def write_report() -> str:
             L.append(md_table(mcv[["model", "mode", "participant_ba", "participant_auc", "segment_ba"]].map(
                 lambda v: _f(v) if isinstance(v, float) else v)))
     L.append("## 5. Limitations\n")
-    L += ["- Simulated clients are random partitions of one archive, **not hospitals**; real sites differ in hardware, "
+    L += ["- Age differs between classes (see the cohort table); E22 shows how far age alone separates them, and "
+          "band-power features are age-dependent, so part of the T1 signal may be age.",
+          "- Simulated clients are random partitions of one archive, **not hospitals**; real sites differ in hardware, "
           "protocol and population.",
           "- The external set (Mumtaz) is small; its CIs are wide.",
           "- Medication was not systematically tracked in TDBRAIN and alters the EEG spectrum.",

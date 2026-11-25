@@ -42,7 +42,7 @@ def privacy_utility(summary: pd.DataFrame, path=None):
 
 
 def main_results(summary: pd.DataFrame, path=None):
-    d = summary[(summary["experiment"].isin(["E01", "E02", "E03", "E04", "E05", "E06", "E12", "E16"]))].copy()
+    d = summary[(summary["experiment"].isin(["E01", "E02", "E03", "E04", "E05", "E06", "E12", "E16", "E22"]))].copy()
     if d.empty:
         return None
     d["label"] = d["experiment"] + " " + d["variant"].replace("default", "") + " " + d["model"]

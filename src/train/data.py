@@ -82,6 +82,9 @@ class TaskData:
             sel = self.cfg.get("features", "all")
             if sel == "faa_only":
                 f = f[["FAA"]]
+            elif sel == "age_only":  # confound check: age alone, same participants, same recipe
+                ages = pd.read_parquet(PARTICIPANTS_FILE).set_index("participant_id")["age"]
+                f = pd.DataFrame({"age": ages.reindex(f.index).astype(float)}, index=f.index)
             elif sel == "no_faa":
                 f = f.drop(columns=["FAA"], errors="ignore")
             if self.cfg.get("feature_transform") == "participant_relative":

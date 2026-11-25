@@ -35,6 +35,7 @@ COMPARISONS = [
     ("EEGNet FedAvg label-skew - IID", {"experiment": "E06", "variant": "label_skew", "model": "eegnet"},
      {"experiment": "E06", "variant": "iid", "model": "eegnet"}),
     ("FAA only - full LR", {"experiment": "E16", "model": "logreg"}, {"experiment": "E02", "model": "logreg"}),
+    ("Band power LR - age-only LR", {"experiment": "E02", "model": "logreg"}, {"experiment": "E22", "model": "logreg"}),
     ("E12 segment split (WRONG) - E04 subject split", {"experiment": "E12", "model": "eegnet"},
      {"experiment": "E04", "variant": "T1", "model": "eegnet"}),
 ] + [(f"{m} DP eps={e} - non-DP", {"experiment": "E09", "model": m, "eps": e}, {"experiment": "E09", "model": m, "eps": "inf"})
