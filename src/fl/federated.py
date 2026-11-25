@@ -39,8 +39,9 @@ def dp_settings(cfg: dict, model_name: str, eps_target: float, n_rounds: int, lo
     return {"sigma": sigma, "sample_rate": q, "clip_norm": float(d["clip_norm"]), "dp_lr": float(lr),
             "steps_per_round": spr, "delta": float(d["delta"]), "grad_mode": d.get("grad_mode", "one_epoch"),
             "target_epsilon": float(eps_target), "optimizer": opt,
-            "epoch_level_epsilon_reference": epoch_level_epsilon(sigma, q * n_participants_max, n_epochs_total, steps,
-                                                                 float(d["delta"]))}
+            # LR sees one averaged feature vector per participant: there is no epoch-level unit to compare
+            "epoch_level_epsilon_reference": None if model_name == "logreg" else
+            epoch_level_epsilon(sigma, q * n_participants_max, n_epochs_total, steps, float(d["delta"]))}
 
 
 def train_federated(model_name, td, fold_ids, labels, cfg, seed, device, eps_target=None, engine=None):
