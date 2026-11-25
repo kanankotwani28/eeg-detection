@@ -1,0 +1,8 @@
+description: Single-site loss - local-only training per client (mean and worst client)
+task: T1
+regime: local
+run_models: [logreg, eegnet]
+fl: {n_clients: 4, partition: iid}
+grid:
+  - {variant: iid, fl: {partition: iid}}
+  - {variant: label_skew, fl: {partition: label_skew}}

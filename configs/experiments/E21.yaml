@@ -1,0 +1,4 @@
+description: Export predictions for the TDBRAIN blinded (REPLICATION) sample for the curators' validation. Needs the user.
+task: T1
+regime: blinded_export
+source: {model: logreg, regime: central}

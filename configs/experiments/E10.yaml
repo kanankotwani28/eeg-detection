@@ -1,0 +1,7 @@
+description: Participant-level LiRA audit, DP vs non-DP, centralised and federated
+task: T1
+regime: audit
+run_models: [logreg, eegnet]
+audit_regimes: [central, federated]
+dp: {enabled: true, target_epsilons: [1, 3, 8, inf]}
+feature_transform: participant_relative   # no cross-subject statistics: required for DP LR, used at every eps incl. inf

@@ -1,0 +1,11 @@
+# Small-subset smoke configuration for `make reproduce` (< 30 min on CPU).
+overrides:
+  subset_n: 120          # stratified participant subset, cached separately as tdbrain@smoke120
+  models:
+    train: {seeds: [0], folds: [0, 1]}
+    eegnet: {max_epochs: 4, patience: 2}
+    logreg: {fl_local_epochs: 2}
+  fl: {rounds: 4, engine: inprocess}
+  dp: {target_epsilons: [3, inf]}
+  audit: {n_shadows_logreg: 8, n_shadows_eegnet: 4}
+experiments: [E01, E02, E04, E06, E09]

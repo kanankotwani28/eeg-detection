@@ -1,0 +1,10 @@
+description: External transfer - frozen models retrained on all TDBRAIN T1, evaluated ONCE on Mumtaz (eyes closed)
+task: T1
+regime: external
+sources:
+  - {name: LR-central, model: logreg, regime: central}
+  - {name: EEGNet-central, model: eegnet, regime: central}
+  - {name: LR-FedAvg, model: logreg, regime: federated}
+  - {name: EEGNet-FedAvg, model: eegnet, regime: federated}
+  - {name: LR-FedAvg-DP-eps8, model: logreg, regime: federated, eps: 8, overrides: {feature_transform: participant_relative}}
+  - {name: EEGNet-FedAvg-DP-eps8, model: eegnet, regime: federated, eps: 8}

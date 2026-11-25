@@ -1,0 +1,5 @@
+description: DELIBERATELY WRONG segment-level split (leakage demonstration). Do not interpret as performance.
+task: T1
+regime: central
+split_mode: segment
+run_models: [eegnet]

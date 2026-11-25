@@ -1,0 +1,8 @@
+description: FedProx under label skew
+task: T1
+regime: federated
+run_models: [eegnet]
+fl: {partition: label_skew, strategy: fedprox}
+grid:
+  - {variant: mu0.01, fl: {proximal_mu: 0.01}}
+  - {variant: mu0.1, fl: {proximal_mu: 0.1}}

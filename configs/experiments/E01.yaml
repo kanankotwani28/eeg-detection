@@ -1,0 +1,5 @@
+description: Shuffled-label sanity check (train/val labels permuted per seed; test labels real). Expect BA ~ 50%.
+task: T1
+regime: central
+run_models: [logreg, eegnet]
+shuffle_labels: true

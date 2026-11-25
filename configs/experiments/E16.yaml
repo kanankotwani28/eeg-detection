@@ -1,0 +1,5 @@
+description: FAA alone -> logistic regression
+task: T1
+regime: central
+run_models: [logreg]
+features: faa_only

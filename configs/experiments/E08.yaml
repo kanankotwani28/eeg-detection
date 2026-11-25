@@ -1,0 +1,8 @@
+description: Local normalisation - FedBN (GroupNorm parameters kept local)
+task: T1
+regime: federated
+run_models: [eegnet]
+fl: {strategy: fedbn}
+grid:
+  - {variant: iid, fl: {partition: iid}}
+  - {variant: label_skew, fl: {partition: label_skew}}

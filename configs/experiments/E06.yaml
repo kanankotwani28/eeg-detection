@@ -1,0 +1,9 @@
+description: Cost of federated learning - FedAvg, IID vs label-skew (+ client dropout p=0.2)
+task: T1
+regime: federated
+run_models: [logreg, eegnet]
+fl: {strategy: fedavg, n_clients: 4}
+grid:
+  - {variant: iid, fl: {partition: iid}}
+  - {variant: label_skew, fl: {partition: label_skew}}
+  - {variant: iid_dropout, fl: {partition: iid, dropout_p: 0.2}}

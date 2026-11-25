@@ -1,0 +1,7 @@
+description: 1 min vs 2 min of data (15 vs 30 epochs of 4 s)
+task: T1
+regime: central
+run_models: [logreg]
+grid:
+  - {variant: 1min, max_epochs_per_person: 15}
+  - {variant: 2min, max_epochs_per_person: 30}

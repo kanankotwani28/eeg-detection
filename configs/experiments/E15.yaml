@@ -1,0 +1,8 @@
+description: Preprocessing sensitivity - ICA on/off and reference
+task: T1
+regime: central
+run_models: [logreg]
+grid:
+  - {variant: default, dataset: tdbrain}
+  - {variant: ica, dataset: tdbrain-ica}
+  - {variant: no_reref, dataset: tdbrain-noref}

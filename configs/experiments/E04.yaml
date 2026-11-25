@@ -1,0 +1,7 @@
+description: Deep vs features - EEGNet-8,2 (GroupNorm), centralised
+task: T1
+regime: central
+run_models: [eegnet]
+grid:
+  - {variant: T1, task: T1}
+  - {variant: T2, task: T2}

@@ -1,0 +1,9 @@
+description: Number of clients K in {2,4,8}
+task: T1
+regime: federated
+run_models: [eegnet]
+fl: {partition: iid}
+grid:
+  - {variant: K2, fl: {n_clients: 2}}
+  - {variant: K4, fl: {n_clients: 4}}
+  - {variant: K8, fl: {n_clients: 8}}

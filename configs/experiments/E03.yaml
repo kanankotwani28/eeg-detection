@@ -1,0 +1,4 @@
+description: Harder contrast - MDD vs other diagnosed patients
+task: T2
+regime: central
+run_models: [logreg]
