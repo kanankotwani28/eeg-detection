@@ -63,3 +63,14 @@ def test_v3_xlsx_participants_file_in_parent(tmp_path):
     f = find_participants_file(ds)
     assert f.name == "TDBRAIN_participants_V3.xlsx"
     assert read_participants(f)["indication"].iloc[0] == "MDD"
+
+
+def test_v3_column_names_resolve():
+    import pandas as pd
+
+    from src.data.index import ALIASES, _col
+
+    cols = ["TDBRAIN_ID", "DISC/REP", "indication", "formal_status", "age", "gender", "sessID", "BDI_pre"]
+    got = {k: _col(pd.DataFrame(columns=cols), k, False) for k in ALIASES}
+    assert got == {"id": "TDBRAIN_ID", "session": "sessID", "indication": "indication", "diagnosis": "formal_status",
+                   "age": "age", "sex": "gender", "bdi": "BDI_pre"}

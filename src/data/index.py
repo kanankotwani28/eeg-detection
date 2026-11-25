@@ -37,7 +37,7 @@ MUMTAZ_19 = ["Fp1", "Fp2", "F7", "F3", "Fz", "F4", "F8", "T7", "C3", "Cz", "C4",
 BLINDED = {"REPLICATION"}
 NOT_A_LABEL = {"UNKNOWN", "REPLICATION", "", "NAN", "N/A", "NA"}
 ALIASES = {
-    "id": ["participants_ID", "participant_id", "participants_id", "ID"],
+    "id": ["participants_ID", "participant_id", "participants_id", "TDBRAIN_ID", "ID"],
     "session": ["sessID", "session", "ses", "session_id"],
     "indication": ["indication", "Indication"],
     "diagnosis": ["diagnosis", "formal_status", "Diagnosis"],
