@@ -52,3 +52,6 @@ reproduce:        ## smoke pipeline (< 30 min CPU): splits -> preprocess subset 
 
 clean-cache:
 	rm -rf artifacts/cache
+
+exp-budget:       ## real-data essential pipeline with the CPU budget overlay (index -> ... -> E13, report after each)
+	PY="$(PY)" scripts/run_essential.sh budget
