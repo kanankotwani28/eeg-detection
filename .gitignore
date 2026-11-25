@@ -1,0 +1,27 @@
+# Data: TDBRAIN DUA forbids redistribution. Never commit EEG.
+/data/
+/artifacts/
+/mlruns/
+/mlartifacts/
+*.vhdr
+*.vmrk
+*.eeg
+*.edf
+*.bdf
+*.fif
+*.set
+*.npy
+*.npz
+# Secrets
+.env
+.env.*
+kaggle.json
+# Python
+__pycache__/
+*.pyc
+.venv/
+.pytest_cache/
+.ruff_cache/
+*.egg-info/
+.ipynb_checkpoints/
+/REPORT.md.synthetic

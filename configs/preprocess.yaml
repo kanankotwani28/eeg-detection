@@ -1,0 +1,17 @@
+channels: [Fp1, Fp2, F7, F3, Fz, F4, F8, T7, C3, Cz, C4, T8, P7, P3, Pz, P4, P8, O1, O2]
+rename: {T3: T7, T4: T8, T5: P7, T6: P8}
+bandpass: [1.0, 40.0]        # FIR, zero-phase
+notch: 50.0
+reference: average           # over the 19 channels, after picking
+resample: 256
+epoch_len_s: 4.0
+epoch_overlap: 0.0
+reject_ptp_uv: 150           # (E) expert to confirm
+flat_uv: 1.0
+min_epochs_per_person: 10    # (E)
+max_epochs_per_person: 30
+interpolate_bads: true       # within-recording bad-channel interpolation only; count logged
+bad_channel_flat_uv: 0.5     # channel std below this -> bad
+bad_channel_z: 5.0           # robust z of channel log-variance above this -> bad
+ica: false                   # E15 sensitivity only
+n_jobs: 1

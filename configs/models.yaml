@@ -1,0 +1,31 @@
+logreg:
+  C_grid: [0.01, 0.1, 1, 10]
+  max_iter: 5000
+  bands: {delta: [1, 4], theta: [4, 8], alpha: [8, 13], beta: [13, 30]}
+  welch_window_s: 2.0
+  welch_overlap: 0.5
+  include_faa: true
+  # federated / DP linear model (torch)
+  optimizer: adam              # local optimiser of the torch linear model (adam | sgd)
+  adam_lr: 0.01
+  sgd_lr: 0.1
+  fl_local_epochs: 5           # local epochs per FL round for the linear model
+  batch_size: 32
+  l2: 0.001
+eegnet:
+  F1: 8
+  D: 2
+  F2: 16
+  kernel_length: 128          # fs/2
+  dropout: 0.5
+  n_groups: 4                 # GroupNorm groups (must divide F1 and F1*D)
+  lr: 0.001
+  batch_size: 64
+  max_epochs: 100
+  patience: 15
+  max_norm_spatial: 1.0
+  max_norm_dense: 0.25
+train:
+  seeds: [0, 1, 2]
+  folds: [0, 1, 2, 3, 4]
+  device: auto

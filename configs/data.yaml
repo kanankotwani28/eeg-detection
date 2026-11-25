@@ -1,0 +1,18 @@
+# Data access. Paths can be overridden with env vars TDBRAIN_PATH / MUMTAZ_PATH.
+tdbrain:
+  mode: local                     # local | kaggle | synthetic (synthetic = generated test data, never real results)
+  local_path: data/tdbrain        # folder containing participants.tsv and sub-*/
+  kaggle_dataset: null            # <owner>/<dataset-slug>; must be YOUR private upload of your licensed copy
+  kaggle_private_confirmed: false # set true only after confirming the Kaggle copy is private and yours
+  conditions: [restEC]            # add restEO for E18
+mumtaz:
+  # Read ONLY by src/eval/external.py (phase 8).
+  local_path: data/mumtaz
+  figshare_article_id: 4244171    # doi 10.6084/m9.figshare.4244171
+cohort:
+  age_min: 18                     # (E) to confirm at the phase-0 checkpoint
+  age_max: 65
+  exclude_comorbid_mdd: false     # (E) to confirm
+  primary_task: T1                # T1 = MDD vs HEALTHY; T2 = MDD vs other diagnosed patients
+  min_healthy_for_t1: 50
+  t2_other_groups: null           # null = all non-MDD diagnosed indications except HEALTHY/UNKNOWN/REPLICATION

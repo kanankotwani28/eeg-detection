@@ -1,0 +1,9 @@
+enabled: false
+target_epsilons: [1, 3, 8]   # inf = non-DP reference
+delta: 1.0e-5
+clip_norm: 1.0
+sample_rate: 0.25            # q: per-participant Poisson sampling probability at each local step
+grad_mode: one_epoch         # one_epoch | mean_epochs
+steps_per_round: null        # null -> round(local_epochs / q)
+dp_lr: {eegnet: 0.05, logreg: 0.02}  # learning rate under DP, per model
+dp_optimizer: {eegnet: sgd, logreg: adam}  # applied to the privatised gradient (post-processing)

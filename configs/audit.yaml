@@ -1,0 +1,5 @@
+n_shadows_logreg: 32
+n_shadows_eegnet: 16
+pool_task: T1
+fprs: [0.001, 0.01, 0.05]
+min_nonmembers_for_0p1: 1000

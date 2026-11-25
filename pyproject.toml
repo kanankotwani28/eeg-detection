@@ -1,0 +1,54 @@
+[project]
+name = "eeg-fl-dp-mdd"
+version = "0.1.0"
+description = "Leakage-safe benchmark of centralised, federated and participant-level DP EEG classifiers for MDD on TDBRAIN (research only, not a diagnostic tool)."
+readme = "README.md"
+requires-python = ">=3.11,<3.12"
+authors = [{ name = "Kanan Kotwani" }]
+dependencies = [
+    "mne>=1.8",
+    "mne-bids>=0.16",
+    "numpy>=1.26,<2.3",
+    "scipy>=1.13",
+    "pandas>=2.2",
+    "pyarrow>=16",
+    "scikit-learn>=1.5",
+    "torch>=2.3",
+    "flwr[simulation]>=1.13",
+    "opacus>=1.5",
+    "mlflow>=2.16",
+    "pydantic>=2.7",
+    "pyyaml>=6",
+    "streamlit>=1.38",
+    "plotly>=5.22",
+    "kaggle>=1.6",
+    "requests>=2.32",
+    "matplotlib>=3.9",
+    "pybv>=0.8.1",
+    "edfio>=0.4.18",
+]
+
+[project.optional-dependencies]
+extra = ["autoreject>=0.4", "braindecode>=0.8"]
+
+[dependency-groups]
+dev = ["pytest>=8", "ruff>=0.6"]
+
+[tool.uv]
+package = false
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-q"
+pythonpath = ["."]
+
+[tool.ruff]
+line-length = 110
+target-version = "py311"
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "B", "UP"]
+ignore = ["E501", "B008"]
+
+[tool.ruff.lint.per-file-ignores]
+"dashboard/**" = ["I001", "E402"]

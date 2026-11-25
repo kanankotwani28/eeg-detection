@@ -1,0 +1,11 @@
+engine: flower        # flower (Flower simulation engine) | inprocess (same client/strategy code, no Ray; tests/smoke)
+n_clients: 4
+partition: iid        # iid | label_skew
+dirichlet_alpha: 0.5
+min_per_class_per_client: 5
+strategy: fedavg      # fedavg | fedprox | fedbn
+proximal_mu: 0.0
+rounds: 60
+local_epochs: 1
+fraction_fit: 1.0
+dropout_p: 0.0        # per-round client unavailability probability (dropout test uses 0.2)
