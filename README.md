@@ -32,7 +32,10 @@ data.
 2. Download the archive (≈ 120 GB). Only `participants.tsv` and first-session `restEC` files are required
    (`restEO` only for E18).
 3. Point the pipeline at it, either in `configs/data.yaml` (`tdbrain.local_path`) or with
-   `export TDBRAIN_PATH=/path/to/TDBRAIN` (the folder that holds `participants.tsv` and `sub-*/`).
+   `export TDBRAIN_PATH=/path/to/TDBRAIN` (the folder that holds `sub-*/`). Recordings may be BrainVision
+   (`.vhdr`) or BioSemi BDF (`.bdf`, as in the V3 release). The participant table is `participants.tsv` or, in the
+   V3 release, `TDBRAIN_participants_V3.xlsx` next to `TDBRAIN_Dataset_V3_1/`. For V3, set
+   `TDBRAIN_PATH=.../TDBRAIN_Dataset_V3_1`.
 
 **Kaggle option.** Use this only for a copy that **you** uploaded **privately** from your own licensed download. Set
 `tdbrain.mode: kaggle`, `kaggle_dataset: <you>/<slug>` and `kaggle_private_confirmed: true`. Credentials come from

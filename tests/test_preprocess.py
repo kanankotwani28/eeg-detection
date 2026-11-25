@@ -62,3 +62,15 @@ def test_cache_from_synthetic_bids(synthetic_env):
     assert X.shape[1:] == (19, 1024) and meta["sfreq"] == 256
     assert meta["channels"] == CFG["channels"]
     assert idx["kept"].sum() == X.shape[0]
+
+
+def test_bdf_file_roundtrip(tmp_path):
+    """TDBRAIN V3 ships BioSemi BDF files: load them, drop non-EEG/Status channels, keep microvolt scale."""
+    from src.data.tdbrain import load_raw
+
+    raw = raw_from(TDBRAIN_EEG, 500.0, dur=40, extra=["VPVA", "Status"])
+    path = tmp_path / "sub-1_ses-1_task-restEC_eeg.bdf"
+    mne.export.export_raw(path, raw, fmt="bdf", overwrite=True, verbose="ERROR")
+    r = preprocess_raw(load_raw(path), CFG)
+    assert r.ch_names == CFG["channels"] and r.epochs.shape[1:] == (19, 1024)
+    assert 1.0 < r.epochs.std() < 200.0
