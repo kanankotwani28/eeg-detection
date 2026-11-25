@@ -13,6 +13,8 @@
 \setlength{\emergencystretch}{2em}
 \frenchspacing
 \usepackage[section]{placeins}
+\usepackage{xcolor}
+\definecolor{titlegreen}{HTML}{EEF8EE}
 \setlength{\parskip}{6pt}
 \graphicspath{{figures/}}
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
@@ -44,6 +46,7 @@
 \begin{document}
 \pagenumbering{roman}
 \pagestyle{frontpages}
+\pagecolor{titlegreen}
 \begin{titlepage}\centering\setstretch{1.05}
 \vspace*{-0.8cm}
 {\large\bfseries PRIVACY-PRESERVING FEDERATED LEARNING FOR EEG-BASED CLASSIFICATION OF MAJOR DEPRESSIVE DISORDER\par}\vspace{4pt}
@@ -60,6 +63,7 @@ Under the guidance of\par{\bfseries Dr. Gyanendra Tiwary\par}\vspace{12pt}
 {\bfseries DEPARTMENT OF COMPUTER SCIENCE AND ENGINEERING\par BIRLA INSTITUTE OF TECHNOLOGY MESRA\par OFF-CAMPUS PATNA -- 800014\par}\vspace{6pt}
 Monsoon Semester 2026 (PROJECT-I, AI24300)\par
 \end{titlepage}
+\nopagecolor
 \setcounter{page}{2}
 \frontheading{APPROVAL OF THE GUIDE}
 \setstretch{1.6}

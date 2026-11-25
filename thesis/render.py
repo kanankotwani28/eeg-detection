@@ -117,6 +117,8 @@ def render_tex() -> str:
 \setlength{\emergencystretch}{2em}
 \frenchspacing
 \usepackage[section]{placeins}
+\usepackage{xcolor}
+\definecolor{titlegreen}{HTML}{EEF8EE}
 \setlength{\parskip}{6pt}
 \graphicspath{{figures/}}
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
@@ -150,7 +152,8 @@ def render_tex() -> str:
 \pagestyle{frontpages}
 """)
     # ---- title page
-    w(r"""\begin{titlepage}\centering\setstretch{1.05}
+    w(r"""\pagecolor{titlegreen}
+\begin{titlepage}\centering\setstretch{1.05}
 \vspace*{-0.8cm}
 {\large\bfseries """ + tex_inline(m["title"]) + r"""\par}\vspace{4pt}
 {\normalsize\bfseries """ + tex_inline(m["subtitle"].upper()) + r"""\par}\vspace{14pt}
@@ -166,6 +169,7 @@ Under the guidance of\par{\bfseries """ + m["guide"] + r"""\par}\vspace{12pt}
 {\bfseries """ + m["dept"] + r"""\par """ + m["inst"] + r"""\par """ + tex_inline(m["campus"]) + r"""\par}\vspace{6pt}
 """ + m["semester"] + r"""\par
 \end{titlepage}
+\nopagecolor
 \setcounter{page}{2}
 """)
     title_q = "``" + tex_inline(m["title_case"]) + ": " + tex_inline(m["subtitle"]) + "''"
