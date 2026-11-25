@@ -115,6 +115,8 @@ def render_tex() -> str:
 \setstretch{1.3}
 \setlength{\parindent}{0pt}
 \setlength{\emergencystretch}{2em}
+\frenchspacing
+\usepackage[section]{placeins}
 \setlength{\parskip}{6pt}
 \graphicspath{{figures/}}
 \renewcommand{\thefigure}{\thechapter.\arabic{figure}}
@@ -225,13 +227,13 @@ Name: \sigline{3.8cm} & Name: \sigline{3.8cm}
         w(tex_inline(p) + "\n\n")
     w(r"\textbf{Keywords:} " + tex_inline(D["keywords"]) + "\n\\newpage\n")
     w(r"""\frontheading{ACKNOWLEDGEMENT}
-I would like to express my sincere gratitude to my project guide, """ + m["guide"] + r""", for his guidance and support throughout this project. His supervision helped me to shape the research question and to carry the work through from the first design to a working benchmark.
+This project owes a great deal to my supervisor, """ + m["guide"] + r""". His questions pushed me to define exactly what the benchmark should measure, and his patience allowed me to rebuild the design whenever the evidence demanded it.
 
-I am thankful to """ + m["hod"] + r""", Head of the Department of Computer Science and Engineering, Birla Institute of Technology, Mesra, Off-Campus Patna, and to the faculty members of the department for providing the academic environment in which this work was carried out.
+My thanks go to """ + m["hod"] + r""", Head of the Department of Computer Science and Engineering at Birla Institute of Technology, Mesra, Off-Campus Patna, and to the teachers of the department, whose courses gave me the background this work required.
 
-I acknowledge Brainclinics and the creators of the TDBRAIN database for making their data available for research, and the authors of the Mumtaz data set for sharing it publicly. I also thank the developers of the open-source tools used in this project, in particular MNE-Python, NumPy, SciPy, scikit-learn, PyTorch, Flower, Opacus and MLflow.
+The study would not have been possible without the people who recorded and released the data: the Brainclinics team behind TDBRAIN, and the authors of the Mumtaz recordings. I am equally indebted to the volunteers who maintain the open-source packages on which every experiment here runs.
 
-Finally, I am grateful to my parents and friends for their constant encouragement and support.
+Last, and most of all, I thank my family and friends, who were patient with the long evenings this project took.
 \vspace{1.5cm}
 
 Date: \sigline{3cm}\hfill """ + m["student_case"] + r"""\\
@@ -260,11 +262,11 @@ Date: \sigline{3cm}\hfill """ + m["student_case"] + r"""\\
             w(tex_inline(b[1]) + "\n\n")
         elif k == "fig":
             key, cap, width = b[1], b[2], b[3]
-            w("\\begin{figure}[H]\\centering\n\\includegraphics[width=" + f"{width:.2f}" +
+            w("\\begin{figure}[!htbp]\\centering\n\\includegraphics[width=" + f"{width:.2f}" +
               "\\textwidth]{" + key + ".png}\n\\caption[" + tex_inline(short(cap)) + "]{" + tex_inline(cap) + "}\\label{fig:" + key + "}\n\\end{figure}\n")
         elif k == "table":
             key, cap, header, rows, spec = b[1:6]
-            w("\\begin{table}[H]\\centering\\small\\setstretch{1.1}\n\\caption{" + tex_inline(cap) + "}\\label{tab:" + key +
+            w("\\begin{table}[!htbp]\\centering\\small\\setstretch{1.1}\n\\caption{" + tex_inline(cap) + "}\\label{tab:" + key +
               "}\n\\begin{tabularx}{\\textwidth}{" + tex_colspec(spec) + "}\n\\toprule\n")
             w(" & ".join(tex_inline(h) for h in header) + "\\\\\n\\midrule\n")
             for r in rows:
@@ -476,17 +478,16 @@ def render_docx(path: Path):
     para(f"**Keywords:** {D['keywords']}", "j")
     page_break()
     front_heading("ACKNOWLEDGEMENT")
-    for t in [f"I would like to express my sincere gratitude to my project guide, {m['guide']}, for his guidance and "
-              "support throughout this project. His supervision helped me to shape the research question and to carry the "
-              "work through from the first design to a working benchmark.",
-              f"I am thankful to {m['hod']}, Head of the Department of Computer Science and Engineering, Birla Institute "
-              "of Technology, Mesra, Off-Campus Patna, and to the faculty members of the department for providing the "
-              "academic environment in which this work was carried out.",
-              "I acknowledge Brainclinics and the creators of the TDBRAIN database for making their data available for "
-              "research, and the authors of the Mumtaz data set for sharing it publicly. I also thank the developers of the "
-              "open-source tools used in this project, in particular MNE-Python, NumPy, SciPy, scikit-learn, PyTorch, "
-              "Flower, Opacus and MLflow.",
-              "Finally, I am grateful to my parents and friends for their constant encouragement and support."]:
+    for t in [f"This project owes a great deal to my supervisor, {m['guide']}. His questions pushed me to define "
+              "exactly what the benchmark should measure, and his patience allowed me to rebuild the design whenever the "
+              "evidence demanded it.",
+              f"My thanks go to {m['hod']}, Head of the Department of Computer Science and Engineering at Birla Institute "
+              "of Technology, Mesra, Off-Campus Patna, and to the teachers of the department, whose courses gave me the "
+              "background this work required.",
+              "The study would not have been possible without the people who recorded and released the data: the "
+              "Brainclinics team behind TDBRAIN, and the authors of the Mumtaz recordings. I am equally indebted to the "
+              "volunteers who maintain the open-source packages on which every experiment here runs.",
+              "Last, and most of all, I thank my family and friends, who were patient with the long evenings this project took."]:
         para(t, "j")
     para()
     para(f"Date: ____________\t\t\t\t\t\t{m['student_case']}", space_after=0)

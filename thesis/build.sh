@@ -4,6 +4,7 @@ set -euo pipefail
 cd "$(dirname "$0")"
 PY="${PY:-../.venv/bin/python}"
 $PY build_figures.py
+if [ -f ../artifacts/cache/epochs_tdbrain_restEC.npy ]; then $PY brain_figures.py; fi
 $PY render.py
 latexmk -pdf -interaction=nonstopmode -halt-on-error -outdir=build thesis.tex > build/latexmk.log 2>&1 || { tail -30 build/latexmk.log; exit 1; }
 cp build/thesis.pdf Thesis_Kanan_Kotwani.pdf
