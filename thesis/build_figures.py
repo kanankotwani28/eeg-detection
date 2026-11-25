@@ -498,7 +498,9 @@ def main():
     fig_lira_roc(lroc)
     fig_external(s, ext)
     # ------------------------------------------------------------ values for the text and tables
-    V = {"cohort": cohort, "qc": qc, "c": c, "git_commit": meta.get("git_commit"), "split_sha": meta.get("split_sha256"),
+    # aggregate values only: per-participant QC entries (keyed by participant ID) are dropped
+    qc_agg = {k: v for k, v in qc.items() if not isinstance(v, dict | list) or k == "psd_check"}
+    V = {"cohort": cohort, "qc": qc_agg, "c": c, "git_commit": meta.get("git_commit"), "split_sha": meta.get("split_sha256"),
          "n_runs": meta.get("n_runs"), "packages": meta.get("packages")}
     V["summary"] = json.loads(s.to_json(orient="records"))
     V["lira"] = json.loads(lira.to_json(orient="records"))
