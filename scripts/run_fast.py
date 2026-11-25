@@ -11,10 +11,12 @@ from src.experiments import check_e01, run_experiment  # noqa: E402
 STREAMS = {
     "lr": [("E01", {}), ("E02", {}), ("E16", {}), ("E03", {}), ("E05", {}), ("E06", {}), ("E09", {}), ("E10", {}),
            ("E13", None)],
-    "eegnet": [("E01", {}), ("E04", {}), ("E12", {}),
+    "eegnet": [("E01", {"models": {"train": {"folds": [0, 1]}}}), ("E04", {}),
+               ("E12", {"models": {"train": {"folds": [0, 1]}}}),
                ("E06", {"grid": [{"variant": "iid", "fl": {"partition": "iid"}},
                                  {"variant": "label_skew", "fl": {"partition": "label_skew"}}]}),
-               ("E09", {}), ("E05", {"grid": [{"variant": "iid", "fl": {"partition": "iid"}}]}), ("E10", {})],
+               ("E09", {}), ("E05", {"grid": [{"variant": "iid", "fl": {"partition": "iid"}}]}),
+               ("E10", {"audit_regimes": ["federated"]})],
 }
 MODEL = {"lr": "logreg", "eegnet": "eegnet"}
 
