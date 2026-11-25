@@ -125,7 +125,7 @@ def score_pool(model_name: str, regime: str, r: dict, td, pool: list[str], devic
         ex = r["extra"]
         data = feat_pdata(td.features(), pool, td.labels, ex["scaler_mean"], ex["scaler_scale"])
     else:
-        data = eeg_pdata(td.X, td.rows, pool, td.labels, td.max_epochs)
+        data = eeg_pdata(td.X, td.rows, pool, td.labels, td.eeg_max_epochs)
     return lira_scores(r["model"], data, device)
 
 

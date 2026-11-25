@@ -1,0 +1,12 @@
+# Fast overlay (`--overlay fast`) for a quick first real-data pass on a 4-CPU machine without GPU.
+# Logistic regression stays at the full specification. EEGNet: 1 seed, <= 12 epochs per person, <= 15 passes,
+# 15 FL rounds, 4 LiRA shadow models at eps in {8, inf}. Runs are tagged overlay=fast. Re-run without the overlay
+# (or with `budget`) for the full specification.
+overrides:
+  models:
+    eegnet: {seeds: [0], max_epochs: 15, patience: 4, max_epochs_per_person: 12}
+  fl: {rounds: 15, engine: inprocess}
+  audit:
+    n_shadows_logreg: 32
+    n_shadows_eegnet: 4
+    eegnet_target_epsilons: [8, inf]

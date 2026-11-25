@@ -27,8 +27,8 @@ def train_logreg(feat, train_ids, val_ids, labels, model_cfg, seed, test_ids=())
 
 def train_eegnet(td, train_ids, val_ids, labels, model_cfg, seed, device, test_ids=(), max_epochs=None):
     set_seed(seed)
-    tr = eeg_pdata(td.X, td.rows, train_ids, labels, td.max_epochs)
-    va = eeg_pdata(td.X, td.rows, val_ids, labels, td.max_epochs)
+    tr = eeg_pdata(td.X, td.rows, train_ids, labels, td.eeg_max_epochs)
+    va = eeg_pdata(td.X, td.rows, val_ids, labels, td.eeg_max_epochs)
     model = build_eegnet(model_cfg, n_channels=tr.samples[0].shape[1], n_times=tr.samples[0].shape[2])
     model, info = train_early_stopping(model, tr, va, "eegnet", model_cfg, seed, device,
                                        max_epochs or model_cfg["max_epochs"], model_cfg["patience"])
@@ -36,7 +36,7 @@ def train_eegnet(td, train_ids, val_ids, labels, model_cfg, seed, device, test_i
     thr = best_threshold(va.y, p_va)
     p_te = np.zeros(0)
     if len(test_ids):
-        te = eeg_pdata(td.X, td.rows, list(test_ids), td.labels, td.max_epochs)  # true labels
+        te = eeg_pdata(td.X, td.rows, list(test_ids), td.labels, td.eeg_max_epochs)  # true labels
         p_te = predict_participants(model, te, device)
     return {"model": model, "threshold": thr, "p_val": p_va, "p_test": p_te, **info}
 

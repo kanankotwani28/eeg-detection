@@ -88,7 +88,7 @@ def run_segment_split(td: TaskData, cfg: dict, fold: int, seed: int, device) -> 
     ids = sorted(p for p in td.labels if p in td.rows)
     items = []
     for p in ids:
-        ep = zscore_recording(np.asarray(td.X[td.rows[p][: td.max_epochs] if td.max_epochs else td.rows[p]]))
+        ep = zscore_recording(np.asarray(td.X[td.rows[p][: td.eeg_max_epochs] if td.eeg_max_epochs else td.rows[p]]))
         items += [(p, e) for e in ep]
     rng = np.random.default_rng(42)
     fold_of = rng.integers(0, 5, len(items))
@@ -185,6 +185,8 @@ def run_experiment(exp_id: str, smoke: bool = False, overrides: dict | None = No
         seeds_ = seeds or vcfg["models"]["train"]["seeds"]
         eps_list = _eps_list(vcfg["dp"]["target_epsilons"]) if vcfg.get("dp", {}).get("enabled") else [None]
         for model_name in vcfg["run_models"]:
+            if model_name not in vcfg["models"]:
+                continue
             model_seeds = seeds or vcfg["models"][model_name].get("seeds") or seeds_  # per-model seed budget
             for eps in eps_list:
                 for fold in folds_:
@@ -290,12 +292,14 @@ def main(argv=None):
     ap.add_argument("--folds", type=lambda s: [int(x) for x in s.split(",")])
     ap.add_argument("--seeds", type=lambda s: [int(x) for x in s.split(",")])
     ap.add_argument("--no-mlflow", action="store_true")
+    ap.add_argument("--models", type=lambda s: s.split(","), help="restrict run_models, e.g. logreg or eegnet")
     a = ap.parse_args(argv)
     ids = ESSENTIAL_ORDER if a.exp in (["all"], ["essential"]) else a.exp
     if a.exp == ["all"]:
         ids = ESSENTIAL_ORDER + OPTIONAL
     for e in ids:
-        res = run_experiment(e, a.smoke, folds=a.folds, seeds=a.seeds, log_mlflow=not a.no_mlflow, overlay=a.overlay)
+        over = {"run_models": a.models} if a.models else None
+        res = run_experiment(e, a.smoke, over, folds=a.folds, seeds=a.seeds, log_mlflow=not a.no_mlflow, overlay=a.overlay)
         if e == "E01":
             chk = check_e01(res)
             print(json.dumps({"E01_check": chk}, indent=1))

@@ -59,6 +59,8 @@ class TaskData:
         ensure_cache(self.dataset, self.cond, cfg.get("preprocess"), cfg.get("subset_n"))
         self._X = self._rows = self._feat = None
         self.max_epochs = cfg.get("max_epochs_per_person")
+        # EEGNet may use fewer epochs per person than the feature track (compute budget); None = all kept epochs
+        self.eeg_max_epochs = cfg["models"]["eegnet"].get("max_epochs_per_person") or self.max_epochs
 
     # --- raw epochs (track B)
     @property

@@ -74,9 +74,9 @@ def train_federated(model_name, td, fold_ids, labels, cfg, seed, device, eps_tar
         kind = "linear"
         extra_out = {"scaler_mean": mean, "scaler_scale": scale}
     else:
-        clients = [eeg_pdata(td.X, td.rows, ids, labels, td.max_epochs) for ids in client_ids]
-        val = eeg_pdata(td.X, td.rows, fold_ids["val"], labels, td.max_epochs)
-        test = eeg_pdata(td.X, td.rows, fold_ids["test"], true, td.max_epochs)
+        clients = [eeg_pdata(td.X, td.rows, ids, labels, td.eeg_max_epochs) for ids in client_ids]
+        val = eeg_pdata(td.X, td.rows, fold_ids["val"], labels, td.eeg_max_epochs)
+        test = eeg_pdata(td.X, td.rows, fold_ids["test"], true, td.eeg_max_epochs)
         n_p = max(len(c) for c in clients)
         n_e = max(c.n_samples for c in clients)
         dp = dp_settings(cfg, model_name, eps_target, fl["rounds"], local_epochs, n_p, n_e)
