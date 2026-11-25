@@ -25,6 +25,7 @@ QC: 10/806 participants excluded (1.2%), epoch rejection 8.2%, 28 recordings wit
 | exp | variant | model | regime | task | ε | n | BA [95% CI] | AUC [95% CI] | BA mean±SD (folds×seeds) | worst client BA |
 |---|---|---|---|---|---|---|---|---|---|---|
 | E01 | default | logreg | central | T1 | inf | 467 | 0.494 [0.446, 0.541] | 0.457 [0.402, 0.512] | 0.479 ± 0.046 | — |
+| E02 | default | logreg | central | T1 | inf | 467 | 0.738 [0.693, 0.780] | 0.768 [0.720, 0.814] | 0.737 ± 0.047 | — |
 
 
 E01 (shuffled labels) must be ≈ 0.5. E12 is a DELIBERATELY WRONG segment-level split and only shows how much leakage inflates scores.
@@ -51,4 +52,4 @@ Threat model: an honest-but-curious server, or anyone with query access to the r
 
 ## 6. Reproducibility
 
-git commit `cd8fec570c050ed3f9932fe30bc42861b683c950`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 15 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
+git commit `8fbe4fe20de973904f1d18f1b84d143a7c875fb8`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 30 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
