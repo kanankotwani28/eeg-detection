@@ -1,0 +1,15 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it as below."
+title: "Federated, privacy-preserving EEG classification of MDD on TDBRAIN: a leakage-safe benchmark"
+authors:
+  - family-names: Kotwani
+    given-names: Kanan
+version: 0.1.0
+date-released: 2026-11-25
+repository-code: "https://github.com/kanankotwani28/eeg-detection"
+abstract: >-
+  A reproducible research benchmark comparing centralised, local-only, federated and federated +
+  participant-level differentially private training of a spectral logistic-regression model and EEGNet
+  for MDD classification on TDBRAIN, with a participant-level LiRA privacy audit and a one-time external
+  test on the Mumtaz dataset. Not a diagnostic tool.
+keywords: [EEG, depression, federated learning, differential privacy, membership inference, TDBRAIN]

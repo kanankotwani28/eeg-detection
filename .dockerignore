@@ -1,0 +1,11 @@
+data/
+artifacts/
+mlruns/
+.venv/
+.git/
+**/*.vhdr
+**/*.eeg
+**/*.vmrk
+**/*.edf
+**/*.npy
+.env
