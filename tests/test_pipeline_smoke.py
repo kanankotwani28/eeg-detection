@@ -47,3 +47,19 @@ def test_e01_check_flags_a_leak():
     assert not check_e01(res)["logreg"]["passes"]
     null = [{"pred": p["pred"].assign(prob=r.random(60))} for p in res]
     assert check_e01(null)["logreg"]["passes"]
+
+
+def test_v3_xlsx_participants_file_in_parent(tmp_path):
+    """TDBRAIN V3 ships TDBRAIN_participants_V3.xlsx next to the dataset folder; '._' files are ignored."""
+    import pandas as pd
+
+    from src.data.tdbrain import find_participants_file, read_participants
+
+    ds = tmp_path / "TDBRAIN_Dataset_V3_1"
+    ds.mkdir()
+    (tmp_path / "._TDBRAIN_participants_V3.xlsx").write_bytes(b"junk")
+    pd.DataFrame({"participants_ID": ["sub-1"], "indication": ["MDD"]}).to_excel(
+        tmp_path / "TDBRAIN_participants_V3.xlsx", index=False)
+    f = find_participants_file(ds)
+    assert f.name == "TDBRAIN_participants_V3.xlsx"
+    assert read_participants(f)["indication"].iloc[0] == "MDD"

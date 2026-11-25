@@ -26,16 +26,34 @@ def resolve_root(data_cfg: dict) -> Path:
     return p
 
 
+def find_participants_file(root: Path) -> Path:
+    """participants.tsv (BIDS) or the V3 release's TDBRAIN_participants_V3.xlsx, in the root or its parent.
+    macOS resource-fork files ('._*') and Excel lock files ('~$*') are ignored."""
+    cands = [root / "participants.tsv"]
+    for d in (root, root.parent):
+        for pat in ("*participants*.tsv", "*participants*.xlsx", "*participants*.csv"):
+            cands += sorted(d.glob(pat))
+    for c in cands:
+        if c.exists() and not c.name.startswith(("._", "~$")):
+            return c
+    raise FileNotFoundError(
+        f"No participants file (participants.tsv or TDBRAIN_participants_*.xlsx) in {root} or its parent. Set "
+        "tdbrain.local_path in configs/data.yaml or TDBRAIN_PATH to the folder that holds sub-*/.")
+
+
+def read_participants(path: Path):
+    import pandas as pd
+
+    if path.suffix == ".xlsx":
+        return pd.read_excel(path, dtype=str)
+    return pd.read_csv(path, sep="\t" if path.suffix == ".tsv" else ",", dtype=str)
+
+
 def verify_local(root: Path, condition: str = "restEC") -> None:
-    """Check participants.tsv exists and at least one restEC recording is readable."""
-    tsv = root / "participants.tsv"
-    if not tsv.exists():
-        raise FileNotFoundError(
-            f"participants.tsv not found in {root}. Set tdbrain.local_path in configs/data.yaml "
-            "or the TDBRAIN_PATH env var to the folder that holds participants.tsv and sub-*/."
-        )
+    """Check a participants file exists and at least one restEC recording is readable."""
+    find_participants_file(root)
     for f in sorted(root.glob(f"sub-*/ses-*/eeg/*{condition}*")):
-        if f.suffix in EEG_EXTS:
+        if f.suffix in EEG_EXTS and not f.name.startswith("._"):
             raw = load_raw(f, preload=False)
             log.info("Readable %s file: %s (%d channels, %.0f Hz)", condition, f.name, len(raw.ch_names),
                      raw.info["sfreq"])
@@ -49,6 +67,7 @@ def find_recording(root: Path, sub: str, ses: str, condition: str) -> Path | Non
         return None
     for ext in EEG_EXTS:
         hits = sorted(eeg_dir.glob(f"*task-{condition}*{ext}")) or sorted(eeg_dir.glob(f"*{condition}*{ext}"))
+        hits = [h for h in hits if not h.name.startswith("._")]
         if hits:
             return hits[0]
     return None

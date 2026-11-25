@@ -16,7 +16,15 @@ import re
 import numpy as np
 import pandas as pd
 
-from src.data.tdbrain import find_recording, list_sessions, load_raw, resolve_root, verify_local
+from src.data.tdbrain import (
+    find_participants_file,
+    find_recording,
+    list_sessions,
+    load_raw,
+    read_participants,
+    resolve_root,
+    verify_local,
+)
 from src.utils.config import load_config
 from src.utils.hashing import sha256_file
 from src.utils.logging import get_logger
@@ -44,7 +52,7 @@ def _col(df: pd.DataFrame, key: str, required: bool = True) -> str | None:
         if c in df.columns:
             return c
     if required:
-        raise KeyError(f"participants.tsv has no column for '{key}' (tried {ALIASES[key]}); columns: {list(df.columns)}")
+        raise KeyError(f"participants file has no column for '{key}' (tried {ALIASES[key]}); columns: {list(df.columns)}")
     return None
 
 
@@ -67,8 +75,9 @@ def normalise_id(x) -> str:
 def build_index(data_cfg: dict, conditions: tuple[str, ...] = ("restEC", "restEO")) -> pd.DataFrame:
     root = resolve_root(data_cfg)
     verify_local(root, "restEC")
-    tsv = root / "participants.tsv"
-    raw = pd.read_csv(tsv, sep="\t", dtype=str)
+    tsv = find_participants_file(root)
+    log.info("Participants file: %s", tsv.name)
+    raw = read_participants(tsv)
     cid, cind = _col(raw, "id"), _col(raw, "indication")
     cses, cdx = _col(raw, "session", False), _col(raw, "diagnosis", False)
     cage, csex, cbdi = _col(raw, "age", False), _col(raw, "sex", False), _col(raw, "bdi", False)

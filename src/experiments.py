@@ -231,12 +231,14 @@ def _param_view(cfg, model_name):
 
 
 def _ptsv_hash():
-    from src.data.tdbrain import resolve_root
+    from src.data.tdbrain import find_participants_file, resolve_root
     from src.utils.config import load_config
     from src.utils.hashing import sha256_file
 
-    p = resolve_root(load_config("data")) / "participants.tsv"
-    return sha256_file(p) if p.exists() else "unknown"
+    try:
+        return sha256_file(find_participants_file(resolve_root(load_config("data"))))
+    except FileNotFoundError:
+        return "unknown"
 
 
 def _is_synthetic() -> bool:
