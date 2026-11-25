@@ -55,3 +55,6 @@ clean-cache:
 
 exp-budget:       ## real-data essential pipeline with the CPU budget overlay (index -> ... -> E13, report after each)
 	PY="$(PY)" scripts/run_essential.sh budget
+
+thesis:           ## thesis PDF + Word + Overleaf zip from the logged results (needs TeX Live)
+	PY="$(PY)" thesis/build.sh

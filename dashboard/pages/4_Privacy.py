@@ -24,7 +24,7 @@ if need(d, "E09 privacy-cost results"):
                                               arrayminus=g["balanced_accuracy"] - g["balanced_accuracy_lo"])))
     fig.add_hline(0.5, line_dash="dash", line_color="grey")
     fig.update_layout(title="Accuracy vs participant-level ε (δ = 1e-5)", xaxis_title="ε", yaxis_title="balanced accuracy (95% CI)",
-                      xaxis=dict(categoryorder="array", categoryarray=["∞ (no DP)" if not np.isfinite(e) else f"{e:g}" for e in order]))
+                      xaxis=dict(type="category", categoryorder="array", categoryarray=["∞ (no DP)" if not np.isfinite(e) else f"{e:g}" for e in order]))
     st.plotly_chart(fig, width="stretch")
     cols = [c for c in ("model", "eps", "epsilon_mean", "epsilon_epoch_level_reference_mean", "sigma_mean", "n_participants") if c in d]
     st.dataframe(d[cols].rename(columns={"epsilon_mean": "participant ε (achieved)",

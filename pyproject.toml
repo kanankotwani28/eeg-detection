@@ -33,7 +33,11 @@ dependencies = [
 extra = ["autoreject>=0.4", "braindecode>=0.8"]
 
 [dependency-groups]
-dev = ["pytest>=8", "ruff>=0.6"]
+dev = [
+    "pytest>=8",
+    "python-docx>=1.2.0",
+    "ruff>=0.6",
+]
 
 [tool.uv]
 package = false
@@ -53,3 +57,4 @@ ignore = ["E501", "B008"]
 
 [tool.ruff.lint.per-file-ignores]
 "dashboard/**" = ["I001", "E402"]
+"thesis/**" = ["E702", "B905", "F841"]
