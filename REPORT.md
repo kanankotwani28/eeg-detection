@@ -28,6 +28,7 @@ QC: 10/806 participants excluded (1.2%), epoch rejection 8.2%, 28 recordings wit
 | E01 | default | logreg | central | T1 | inf | 467 | 0.494 [0.446, 0.541] | 0.457 [0.402, 0.512] | 0.479 ± 0.046 | — |
 | E02 | default | logreg | central | T1 | inf | 467 | 0.738 [0.693, 0.780] | 0.768 [0.720, 0.814] | 0.737 ± 0.047 | — |
 | E03 | default | logreg | central | T2 | inf | 640 | 0.553 [0.514, 0.590] | 0.581 [0.536, 0.624] | 0.553 ± 0.016 | — |
+| E04 | T1 | eegnet | central | T1 | inf | 94 | 0.663 [0.566, 0.760] | 0.724 [0.611, 0.823] | 0.663 ± 0.000 | — |
 | E05 | iid | logreg | local | T1 | inf | 467 | 0.640 [0.594, 0.685] | 0.695 [0.643, 0.746] | 0.639 ± 0.032 | 0.620 |
 | E05 | label_skew | logreg | local | T1 | inf | 467 | 0.601 [0.555, 0.648] | 0.604 [0.550, 0.657] | 0.600 ± 0.037 | 0.592 |
 | E06 | iid | logreg | federated | T1 | inf | 467 | 0.705 [0.657, 0.750] | 0.766 [0.717, 0.811] | 0.692 ± 0.036 | — |
@@ -47,6 +48,8 @@ E01 (shuffled labels) must be ≈ 0.5. E12 is a DELIBERATELY WRONG segment-level
 
 | comparison | metric | A − B [95% CI] | n_participants |
 |---|---|---|---|
+| EEGNet - LR (central, T1) | balanced_accuracy | -0.008 [-0.113, 0.096] | 94 |
+| EEGNet - LR (central, T1) | auc | -0.013 [-0.114, 0.086] | 94 |
 | LR FedAvg IID - LR central | balanced_accuracy | -0.034 [-0.066, -0.005] | 467 |
 | LR FedAvg IID - LR central | auc | -0.002 [-0.022, 0.018] | 467 |
 | LR FedAvg label-skew - IID | balanced_accuracy | -0.002 [-0.037, 0.032] | 467 |
@@ -70,9 +73,9 @@ Threat model: an honest-but-curious server, or anyone with query access to the r
 
 | model | eps | n_participants | BA [95% CI] | AUC [95% CI] | achieved participant ε (mean) | epoch-level ε (reference only) |
 |---|---|---|---|---|---|---|
-| logreg | 1 | 467 | 0.610 [0.562, 0.658] | 0.641 [0.584, 0.693] | 1.000 | 1.000 |
-| logreg | 3 | 467 | 0.604 [0.560, 0.652] | 0.639 [0.583, 0.693] | 2.999 | 2.999 |
-| logreg | 8 | 467 | 0.629 [0.583, 0.676] | 0.688 [0.637, 0.737] | 7.995 | 7.995 |
+| logreg | 1 | 467 | 0.610 [0.562, 0.658] | 0.641 [0.584, 0.693] | 1.000 | — |
+| logreg | 3 | 467 | 0.604 [0.560, 0.652] | 0.639 [0.583, 0.693] | 2.999 | — |
+| logreg | 8 | 467 | 0.629 [0.583, 0.676] | 0.688 [0.637, 0.737] | 7.995 | — |
 | logreg | inf | 467 | 0.716 [0.671, 0.758] | 0.767 [0.718, 0.814] | — | — |
 
 
@@ -88,6 +91,15 @@ Threat model: an honest-but-curious server, or anyone with query access to the r
 
 ## 4. External test (TDBRAIN → Mumtaz, frozen models, evaluated once)
 
+| source | balanced_accuracy [95% CI] | auc [95% CI] | sensitivity [95% CI] | specificity [95% CI] | n |
+|---|---|---|---|---|---|
+| LR-central | 0.679 [0.589, 0.768] | 0.549 [0.382, 0.707] | 1.000 [1.000, 1.000] | 0.357 [0.179, 0.536] | 58 |
+| LR-FedAvg | 0.645 [0.542, 0.751] | 0.536 [0.365, 0.696] | 0.933 [0.833, 1.000] | 0.357 [0.179, 0.536] | 58 |
+| LR-FedAvg-DP-eps8 | 0.593 [0.489, 0.698] | 0.660 [0.517, 0.789] | 0.900 [0.800, 1.000] | 0.286 [0.143, 0.464] | 58 |
+
+
+E13 dataset-identity probe (TDBRAIN-HC vs Mumtaz-HC): AUC 0.966 [0.935, 0.990]. A high AUC means the datasets are separable from band power alone, so pooled training risks shortcut learning.
+
 ## 5. Limitations
 
 - Age differs between classes (see the cohort table); E22 shows how far age alone separates them, and band-power features are age-dependent, so part of the T1 signal may be age.
@@ -100,4 +112,4 @@ Threat model: an honest-but-curious server, or anyone with query access to the r
 
 ## 6. Reproducibility
 
-git commit `d08de409c0bcdb5032f0326bc9c95dae18b64235`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 152 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
+git commit `9f1e25e0af07d059ec61ed2ce515cef560539fd2`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 157 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
