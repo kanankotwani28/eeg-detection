@@ -69,10 +69,15 @@ def figshare_download(article_id: int, dest: Path, confirm_large: bool = False) 
             out.append(target)
             continue
         with requests.get(f["download_url"], stream=True, timeout=300) as resp:
+            if resp.status_code == 404:  # some files are listed but not served; logged, not fatal
+                log.warning("figshare file not available (404): %s", f["name"])
+                continue
             resp.raise_for_status()
-            with open(target, "wb") as fh:
+            tmp = target.with_suffix(target.suffix + ".part")
+            with open(tmp, "wb") as fh:
                 for chunk in resp.iter_content(1 << 20):
                     fh.write(chunk)
+            tmp.rename(target)
         out.append(target)
     return out
 

@@ -44,10 +44,11 @@ def fetch_mumtaz() -> Path:
     from src.data.download import figshare_download
 
     root = mumtaz_root()
-    has_files = root.exists() and any(root.rglob("*.edf"))
-    if not has_files:
+    marker = root / ".download_complete"
+    if not marker.exists():
         access_log(f"download figshare -> {root}")
         figshare_download(load_config("data")["mumtaz"]["figshare_article_id"], root)
+        marker.write_text("ok\n")
     return root
 
 
