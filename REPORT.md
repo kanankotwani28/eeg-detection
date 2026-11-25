@@ -27,7 +27,10 @@ QC: 10/806 participants excluded (1.2%), epoch rejection 8.2%, 28 recordings wit
 | E01 | default | logreg | central | T1 | inf | 467 | 0.494 [0.446, 0.541] | 0.457 [0.402, 0.512] | 0.479 ± 0.046 | — |
 | E02 | default | logreg | central | T1 | inf | 467 | 0.738 [0.693, 0.780] | 0.768 [0.720, 0.814] | 0.737 ± 0.047 | — |
 | E03 | default | logreg | central | T2 | inf | 640 | 0.553 [0.514, 0.590] | 0.581 [0.536, 0.624] | 0.553 ± 0.016 | — |
+| E05 | iid | logreg | local | T1 | inf | 467 | 0.640 [0.594, 0.685] | 0.695 [0.643, 0.746] | 0.639 ± 0.032 | 0.620 |
+| E05 | label_skew | logreg | local | T1 | inf | 467 | 0.601 [0.555, 0.648] | 0.604 [0.550, 0.657] | 0.600 ± 0.037 | 0.592 |
 | E16 | default | logreg | central | T1 | inf | 467 | 0.538 [0.491, 0.584] | 0.536 [0.477, 0.594] | 0.539 ± 0.030 | — |
+| E22 | default | logreg | central | T1 | inf | 467 | 0.615 [0.568, 0.663] | 0.635 [0.580, 0.693] | 0.614 ± 0.022 | — |
 
 
 E01 (shuffled labels) must be ≈ 0.5. E12 is a DELIBERATELY WRONG segment-level split and only shows how much leakage inflates scores.
@@ -38,6 +41,8 @@ E01 (shuffled labels) must be ≈ 0.5. E12 is a DELIBERATELY WRONG segment-level
 |---|---|---|---|
 | FAA only - full LR | balanced_accuracy | -0.201 [-0.262, -0.137] | 467 |
 | FAA only - full LR | auc | -0.232 [-0.300, -0.161] | 467 |
+| Band power LR - age-only LR | balanced_accuracy | 0.123 [0.067, 0.180] | 467 |
+| Band power LR - age-only LR | auc | 0.133 [0.071, 0.194] | 467 |
 
 ## 3. Privacy
 
@@ -60,4 +65,4 @@ Threat model: an honest-but-curious server, or anyone with query access to the r
 
 ## 6. Reproducibility
 
-git commit `7ffb4c97e5d8cfc62d831b7f1cc28e4eb51f08e1-dirty`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 60 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
+git commit `bce696912e8fae388502b2189c00a6062adae4ef`, split hash `758ada32a67740bf199d043d4c9b09e066d777308764de5456c6292336e33fee`, participants.tsv hash `['08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4']`, seeds ['0', '1', '2'], 105 MLflow runs. Packages: {'numpy': '2.2.6', 'scipy': '1.17.1', 'pandas': '3.1.1', 'scikit-learn': '1.9.1', 'torch': '2.15.0', 'flwr': '1.44.0', 'opacus': '1.6.0', 'mne': '1.13.2', 'mlflow': '3.18.0', 'streamlit': '1.67.0', 'plotly': '7.2.0'}.
