@@ -227,13 +227,15 @@ Name: \sigline{3.8cm} & Name: \sigline{3.8cm}
         w(tex_inline(p) + "\n\n")
     w(r"\textbf{Keywords:} " + tex_inline(D["keywords"]) + "\n\\newpage\n")
     w(r"""\frontheading{ACKNOWLEDGEMENT}
-This project owes a great deal to my supervisor, """ + m["guide"] + r""". His questions pushed me to define exactly what the benchmark should measure, and his patience allowed me to rebuild the design whenever the evidence demanded it.
+This project owes a great deal to my supervisor, """ + m["guide"] + r""". The guidance I received pushed me to define exactly what the benchmark should measure, and the patience shown to me allowed the design to be rebuilt whenever the evidence demanded it.
 
 My thanks go to """ + m["hod"] + r""", Head of the Department of Computer Science and Engineering at Birla Institute of Technology, Mesra, Off-Campus Patna, and to the teachers of the department, whose courses gave me the background this work required.
 
 The study would not have been possible without the people who recorded and released the data: the Brainclinics team behind TDBRAIN, and the authors of the Mumtaz recordings. I am equally indebted to the volunteers who maintain the open-source packages on which every experiment here runs.
 
-Last, and most of all, I thank my family and friends, who were patient with the long evenings this project took.
+I am especially grateful to my friend Arpit, whose constant support, encouragement and willingness to discuss ideas helped me through the difficult stages of this project.
+
+Last, and most of all, I thank my family and friends, who were patient with the long evenings this project took and stood by me throughout.
 \vspace{1.5cm}
 
 Date: \sigline{3cm}\hfill """ + m["student_case"] + r"""\\
@@ -478,16 +480,19 @@ def render_docx(path: Path):
     para(f"**Keywords:** {D['keywords']}", "j")
     page_break()
     front_heading("ACKNOWLEDGEMENT")
-    for t in [f"This project owes a great deal to my supervisor, {m['guide']}. His questions pushed me to define "
-              "exactly what the benchmark should measure, and his patience allowed me to rebuild the design whenever the "
-              "evidence demanded it.",
+    for t in [f"This project owes a great deal to my supervisor, {m['guide']}. The guidance I received pushed me to "
+              "define exactly what the benchmark should measure, and the patience shown to me allowed the design to be "
+              "rebuilt whenever the evidence demanded it.",
               f"My thanks go to {m['hod']}, Head of the Department of Computer Science and Engineering at Birla Institute "
               "of Technology, Mesra, Off-Campus Patna, and to the teachers of the department, whose courses gave me the "
               "background this work required.",
               "The study would not have been possible without the people who recorded and released the data: the "
               "Brainclinics team behind TDBRAIN, and the authors of the Mumtaz recordings. I am equally indebted to the "
               "volunteers who maintain the open-source packages on which every experiment here runs.",
-              "Last, and most of all, I thank my family and friends, who were patient with the long evenings this project took."]:
+              "I am especially grateful to my friend Arpit, whose constant support, encouragement and willingness to "
+              "discuss ideas helped me through the difficult stages of this project.",
+              "Last, and most of all, I thank my family and friends, who were patient with the long evenings this project "
+              "took and stood by me throughout."]:
         para(t, "j")
     para()
     para(f"Date: ____________\t\t\t\t\t\t{m['student_case']}", space_after=0)
