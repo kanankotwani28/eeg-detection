@@ -10,7 +10,11 @@ import streamlit as st
 
 ROOT = Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT))
-from src.utils.paths import RESULTS  # noqa: E402
+from src.utils.paths import RESULTS as _FULL  # noqa: E402
+
+# Full local results if this machine ran the experiments; otherwise the aggregate-only bundle shipped in the repo.
+BUNDLE = ROOT / "dashboard" / "data"
+RESULTS = _FULL if (_FULL / "summary_table.parquet").exists() else BUNDLE
 
 NOT_DIAGNOSTIC = ("**Research benchmark — not a diagnostic tool.** Nothing on this dashboard is a clinical test, "
                   "and no EEG feature shown is a biomarker of depression.")

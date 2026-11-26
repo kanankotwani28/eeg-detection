@@ -62,6 +62,19 @@ make report                 # MLflow -> artifacts/results/*.parquet, explainabil
 make dashboard              # http://localhost:8501
 ```
 
+### Dashboard only (no data needed)
+
+The repository ships an aggregate-only copy of the TDBRAIN results in `dashboard/data/` (no participant IDs, no
+per-person values), so the dashboard works from a fresh clone:
+
+```bash
+uv sync
+uv run streamlit run dashboard/app.py
+```
+
+or, without the full environment: `pip install streamlit plotly pandas pyarrow` and `streamlit run dashboard/app.py`.
+If you have run the experiments yourself, the dashboard uses your own `artifacts/results/` instead.
+
 `make reproduce` runs the smoke configuration (`configs/experiments/smoke.yaml`: a 120-participant stratified
 subset, 2 folds, 1 seed, short training). It covers splits → preprocessing → E01, E02, E04, E06, E09 → export →
 report, and is designed to finish in under 30 minutes on CPU.

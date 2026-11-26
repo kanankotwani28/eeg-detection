@@ -27,9 +27,10 @@ exp-all:          ## essential experiments in the prescribed order (stops if E01
 exp-optional:
 	$(PY) -m src.experiments E07 E08 E14 E15 E17 E18 E19 E20
 
-report:           ## MLflow -> artifacts/results/*.parquet + summary.json, explainability, REPORT.md
+report:           ## MLflow -> artifacts/results/*.parquet + summary.json, explainability, REPORT.md, dashboard bundle
 	$(PY) -m src.report.export
 	$(PY) -m src.report.tables
+	$(PY) -m src.report.bundle
 
 dashboard:        ## read-only local dashboard
 	uv run streamlit run dashboard/app.py

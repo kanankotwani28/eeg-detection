@@ -1,0 +1,171 @@
+{
+  "n_rows_participants_tsv": 1363,
+  "n_participants_first_session": 1303,
+  "n_with_restEC": 1299,
+  "n_with_restEO": 0,
+  "indication_counts_first_session": {
+    "MDD": 345,
+    "UNKNOWN": 255,
+    "ADHD": 217,
+    "HEALTHY": 183,
+    "SMC": 89,
+    "OCD": 43,
+    "TINNITUS": 32,
+    "INSOMNIA": 30,
+    "PARKINSON": 25,
+    "DYSLEXIA": 17,
+    "CHRONIC PAIN": 14,
+    "BURNOUT": 10,
+    "PDD NOS": 9,
+    "BIPOLAR": 5,
+    "WHIPLASH": 4,
+    "ANXIETY": 4,
+    "MIGRAINE": 3,
+    "ASPERGER": 3,
+    "DEPERSONALIZATION": 3,
+    "ASD": 2,
+    "TBI": 2,
+    "STROKE": 2,
+    "PANIC": 1,
+    "DYSPRAXIA": 1,
+    "PTSD": 1,
+    "CONVERSION DX": 1,
+    "MSA-C": 1,
+    "EPILEPSY": 1
+  },
+  "dropped_replication_blinded": 0,
+  "dropped_unknown": 255,
+  "outside_age_range": 345,
+  "cohort_rules": {
+    "age_min": 18,
+    "age_max": 65,
+    "exclude_comorbid_mdd": false,
+    "primary_task": "T1",
+    "min_healthy_for_t1": 50,
+    "t2_other_groups": null
+  },
+  "T1": {
+    "MDD": {
+      "n": 313,
+      "age_mean": 43.42945686900958,
+      "age_sd": 12.068443700739104,
+      "sex_raw_counts": {
+        "0": 162,
+        "1": 151
+      },
+      "comorbid": 28,
+      "groups": {
+        "MDD": 313
+      }
+    },
+    "HEALTHY": {
+      "n": 162,
+      "age_mean": 36.870246913580246,
+      "age_sd": 14.094896964346685,
+      "sex_raw_counts": {
+        "0": 93,
+        "1": 69
+      },
+      "comorbid": 0,
+      "groups": {
+        "HEALTHY": 162
+      }
+    }
+  },
+  "T2": {
+    "MDD": {
+      "n": 313,
+      "age_mean": 43.42945686900958,
+      "age_sd": 12.068443700739104,
+      "sex_raw_counts": {
+        "0": 162,
+        "1": 151
+      },
+      "comorbid": 28,
+      "groups": {
+        "MDD": 313
+      }
+    },
+    "OTHER": {
+      "n": 331,
+      "age_mean": 43.775196374622354,
+      "age_sd": 13.731081868501912,
+      "sex_raw_counts": {
+        "1": 184,
+        "0": 147
+      },
+      "comorbid": 24,
+      "groups": {
+        "ADHD": 110,
+        "SMC": 50,
+        "OCD": 42,
+        "INSOMNIA": 30,
+        "TINNITUS": 28,
+        "PARKINSON": 16,
+        "CHRONIC PAIN": 14,
+        "BURNOUT": 10,
+        "WHIPLASH": 4,
+        "ANXIETY": 4,
+        "BIPOLAR": 4,
+        "MIGRAINE": 3,
+        "DEPERSONALIZATION": 3,
+        "PDD NOS": 2,
+        "ASPERGER": 2,
+        "TBI": 2,
+        "PANIC": 1,
+        "PTSD": 1,
+        "CONVERSION DX": 1,
+        "ASD": 1,
+        "MSA-C": 1,
+        "STROKE": 1,
+        "EPILEPSY": 1
+      }
+    }
+  },
+  "channels_one_restEC_file": [
+    "Fp1",
+    "Fp2",
+    "F7",
+    "F3",
+    "Fz",
+    "F4",
+    "F8",
+    "FC3",
+    "FCz",
+    "FC4",
+    "T7",
+    "C3",
+    "Cz",
+    "C4",
+    "T8",
+    "CP3",
+    "CPz",
+    "CP4",
+    "P7",
+    "P3",
+    "Pz",
+    "P4",
+    "P8",
+    "O1",
+    "Oz",
+    "O2",
+    "VPVA",
+    "VNVB",
+    "HPHL",
+    "HNHR",
+    "Erbs",
+    "Mass",
+    "Status"
+  ],
+  "mumtaz_19_missing_in_tdbrain": [],
+  "participants_tsv_sha256": "08fc8feb28f99d9d0ab56026a9f02c1cc80870a9385a3dffcea322fcd8051fe4",
+  "flowchart": {
+    "participants": 1303,
+    "first_session": 1303,
+    "with_restEC": 1299,
+    "labelled_not_blinded": 1044,
+    "T1_final": 475,
+    "T2_final": 644
+  },
+  "recommend_T2_primary": false
+}

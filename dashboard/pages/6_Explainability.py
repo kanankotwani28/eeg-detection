@@ -1,8 +1,7 @@
 import plotly.express as px
 import streamlit as st
 
-from common import header, need, table  # noqa: I001
-from src.utils.paths import RESULTS  # noqa: E402
+from common import RESULTS, header, need, table  # noqa: I001
 
 header("Explainability")
 st.warning("Everything on this page **explains the model, not the disorder**.")
